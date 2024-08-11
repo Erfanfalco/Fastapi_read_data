@@ -2,9 +2,9 @@ import sqlalchemy as db
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends
 
-from App.models import PaymentData, CustomerTotalRemain
+from App.models import PaymentData, CustomerTotalRemain, WeeklyWage
 from App.dependencies import get_sqldb_session, get_postgres_db_session
-from App.routers.commands import future_settlements_cmd, customer_remain_cmd
+from App.routers.commands import future_settlements_cmd, customer_remain_cmd, weekly_wage_cmd
 
 router = APIRouter()
 
@@ -28,3 +28,16 @@ async def read_customer_remain_data(db_session: Session = Depends(get_postgres_d
 
     # Return the list of CustomerTotalRemain objects as JSON response
     return data_dicts
+
+
+@router.get("/WeeklyWage", response_model=list[WeeklyWage], tags=['Services'])
+async def read_weekly_wage_data(db_session: Session = Depends(get_postgres_db_session)):
+    # Connect to the database using SQLAlchemy engine
+    result = db_session.execute(db.text(weekly_wage_cmd))
+    data_dicts = [WeeklyWage(weekly_number=int(row[0]), total_interest=float(row[1]),
+                             first_week_date=str(row[2])) for row in result]
+
+    # Return the list of WeeklyWage objects as JSON response
+    return data_dicts
+
+
