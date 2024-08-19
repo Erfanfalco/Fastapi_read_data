@@ -14,6 +14,26 @@ class CustomerTotalRemain(BaseModel):
 
 
 class WeeklyWage(BaseModel):
-    weekly_number: int
+    week_number: int
     total_interest: float
     first_week_date: str
+
+
+class UsableCredit(BaseModel):
+    date: str
+    branch_name: str
+    sum_credit: float
+
+
+class FinalCredit(BaseModel):
+    branch_name: str
+    final_credit: float
+    tr_ge_date: str
+
+
+class Transactions(BaseModel):
+    branch_name: str
+    is_a_purchase: bool
+    total_amount: float
+    date: str
+    stock_code: str

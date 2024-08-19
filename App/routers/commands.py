@@ -18,12 +18,28 @@ customer_remain_cmd = ('''SELECT  SUM(f.remain) AS total_remain,customer_data.br
                         ''')
 
 
-weekly_wage_cmd = ('''SELECT EXTRACT(WEEK FROM tr_ge_date) AS Week_Number,
-                      SUM(interest) AS Total_Interest,
-                      MIN(tr_ge_date) as tr_ge_date
-                      FROM public.financial_status_data 
-                      WHERE tr_ge_date >= CURRENT_DATE
-                      GROUP BY week_number 
-                      ORDER BY tr_ge_date;
-                      ''')
+weekly_wage_cmd = ('''SELECT Week_Number,
+                    Total_Interest,
+                    tr_ge_date
+                    FROM weekly_wage_cube
+                    WHERE tr_ge_date <= CURRENT_DATE
+                    ORDER BY tr_ge_date DESC
+                    LIMIT 20;
+                    ''')
 
+
+daily_usable_credit_cmd = ('''SELECT date, branch_name, sum_credit
+                    FROM usable_credit_cube
+                    WHERE TO_DATE(date, 'DD/MM/YYYY') = CURRENT_DATE
+                    ''')
+
+daily_final_credit_cmd = ('''SELECT branch_name,final_credit,tr_ge_date
+                    FROM final_credit_cube
+                    WHERE TO_DATE(tr_ge_date, 'YYYY-MM-DD') = CURRENT_DATE
+                    ''')
+
+
+daily_transactions_cmd = (''' SELECT *
+                    FROM transaction_cube
+                    WHERE TO_DATE(date, 'YYYY-MM-DD') = CURRENT_DATE
+                    ''')

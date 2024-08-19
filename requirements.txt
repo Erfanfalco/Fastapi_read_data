@@ -1,0 +1,4 @@
+SQLAlchemy==2.0.31
+fastapi==0.112.0
+pydantic==2.8.2
+configparser==7.1.0
