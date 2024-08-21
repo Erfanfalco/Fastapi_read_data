@@ -5,7 +5,7 @@ app = FastAPI(debug=True)
 
 
 # Dependency function to get a new DB session
-def get_sqldb_session():
+def get_sql_db_session():
     session = Credentials.sql_engine.connect()
     try:
         yield session

@@ -37,3 +37,10 @@ class Transactions(BaseModel):
     total_amount: float
     date: str
     stock_code: str
+
+
+class PortfoComposition(BaseModel):
+    stock_code: str
+    stock_price: float
+    date_to_ge: str
+    usable_credit: float

@@ -43,3 +43,9 @@ daily_transactions_cmd = (''' SELECT *
                     FROM transaction_cube
                     WHERE TO_DATE(date, 'YYYY-MM-DD') = CURRENT_DATE
                     ''')
+
+
+daily_portfo_composition = ('''SELECT *
+                    FROM portfo_composition_cube
+                    where TO_DATE(date_to_ge, 'YYYY-MM') = CURRENT_DATE
+                    ''')

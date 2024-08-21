@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 import urllib
 
 # Path to the INI file
-path = r"C:\Users\erfan\Downloads\projects\ETL\Prediction\App\routers\DbInfo.ini"
+path = r"C:\Users\erfan\Downloads\projects\DbInfo.ini"
 
 # Initialize ConfigParser
 Config = cf.ConfigParser()
