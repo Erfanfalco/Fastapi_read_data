@@ -30,22 +30,42 @@ weekly_wage_cmd = ('''SELECT Week_Number,
 
 daily_usable_credit_cmd = ('''SELECT date, branch_name, sum_credit
                     FROM usable_credit_cube
-                    WHERE TO_DATE(date, 'DD/MM/YYYY') = CURRENT_DATE
+                    WHERE TO_DATE(date, 'DD/MM/YYYY') = CURRENT_DATE;
                     ''')
 
 daily_final_credit_cmd = ('''SELECT branch_name,final_credit,tr_ge_date
                     FROM final_credit_cube
-                    WHERE TO_DATE(tr_ge_date, 'YYYY-MM-DD') = CURRENT_DATE
+                    WHERE TO_DATE(tr_ge_date, 'YYYY-MM-DD') = CURRENT_DATE;
                     ''')
 
 
 daily_transactions_cmd = (''' SELECT *
                     FROM transaction_cube
-                    WHERE TO_DATE(date, 'YYYY-MM-DD') = CURRENT_DATE
+                    WHERE TO_DATE(date, 'YYYY-MM-DD') = CURRENT_DATE;
                     ''')
 
 
 daily_portfo_composition = ('''SELECT *
                     FROM portfo_composition_cube
-                    where TO_DATE(date_to_ge, 'YYYY-MM') = CURRENT_DATE
+                    where TO_DATE(date_to_ge, 'YYYY-MM-DD') = CURRENT_DATE;
                     ''')
+
+
+credit_kpi_cmd = ('''WITH usable_credit as (SELECT 
+                    SUM(sum_credit) as sum_credit, 
+                    DATE_PART('week', ((TO_DATE(date, 'DD-MM-YYYY') + INTERVAL '2 days') - INTERVAL '12 weeks')::date) AS Week_Number,
+                    Min(date) as date
+                    FROM 
+                        usable_credit_cube uc
+                    GROUP by Week_Number
+                    )
+                    
+                    SELECT (us.sum_credit/ww.total_interest) as kpi, ww.tr_ge_date, us.week_number
+                    FROM weekly_wage_cube ww
+                    INNER join usable_credit us
+                    on us.Week_Number = ww.week_number
+                    where ww.tr_ge_date = CURRENT_DATE
+                    order by ww.tr_ge_date desc;
+                    ''')
+
+

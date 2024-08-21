@@ -21,7 +21,6 @@ try:
         f'mssql+pyodbc://{username}:{password_encoded}@{server}/{source_name}?driver=ODBC+Driver+17+for+SQL+Server'
     )
 
-    # Print success message
     print("Successfully connected to SQL Server.")
 except Exception as e:
     print(f"Failed to connect to SQL Server: {e}")
@@ -38,7 +37,6 @@ try:
     # SQLAlchemy engine setup for PostgreSQL
     postgres_engine = create_engine(postgres_path)
 
-    # Print success message
     print("Successfully connected to PostgreSQL.")
 except Exception as e:
     print(f"Failed to connect to PostgreSQL: {e}")

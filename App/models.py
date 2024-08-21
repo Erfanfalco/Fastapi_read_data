@@ -44,3 +44,10 @@ class PortfoComposition(BaseModel):
     stock_price: float
     date_to_ge: str
     usable_credit: float
+
+
+class CreditKPI(BaseModel):
+    kpi: float
+    tr_ge_date: str
+    week_number: int
+
